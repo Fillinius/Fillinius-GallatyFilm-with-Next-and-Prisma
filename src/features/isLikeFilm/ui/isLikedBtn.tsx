@@ -4,10 +4,15 @@ import { HandThumbDownIcon, HandThumbUpIcon } from '@heroicons/react/24/solid'
 type IsLikedFilmsButtonProp = {
   isLiked: boolean
   filmId: number
+  onSuccess?: () => void
 }
 
-export function IsLikedBtn({ filmId, isLiked }: IsLikedFilmsButtonProp) {
-  const { mutate } = trpc.film.isLiked.useMutation()
+export function IsLikedBtn({
+  filmId,
+  isLiked,
+  onSuccess,
+}: IsLikedFilmsButtonProp) {
+  const { mutate } = trpc.film.isLiked.useMutation({ onSuccess })
   const nandleClickIsLike = () => {
     mutate({
       id: filmId,

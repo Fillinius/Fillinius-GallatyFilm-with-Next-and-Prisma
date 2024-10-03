@@ -4,7 +4,7 @@ import { prisma } from '@/server/db'
 import { trpc } from '@/shared/api/api'
 
 export default function Home() {
-  const { data } = trpc.film.findMany.useQuery()
+  const { data, refetch } = trpc.film.findMany.useQuery()
 
   if (!data) {
     return <div>Loading...</div>
@@ -17,7 +17,13 @@ export default function Home() {
         <li key={film.id}>
           <FilmCard
             {...film}
-            isLikedBtn={<IsLikedBtn filmId={film.id} isLiked={film.isLiked} />}
+            isLikedBtn={
+              <IsLikedBtn
+                filmId={film.id}
+                isLiked={film.isLiked}
+                onSuccess={refetch}
+              />
+            }
           />
         </li>
       ))}
