@@ -1,0 +1,36 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.bd"
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+
+  name String
+  email String @unique
+  password String
+
+  films Film[]
+}
+
+model Film{
+  id Int @id @default(autoincrement())
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  title String
+  description String
+  poster String
+  date DateTime
+  isLiked Boolean
+
+authorId Int
+author User @relation(fields:[authorId],references:[id])
+}
